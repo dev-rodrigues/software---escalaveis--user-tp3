@@ -4,4 +4,6 @@ import br.com.devrodrigues.userservice.core.User;
 
 public interface UserPort {
     User create(User user);
+
+    User getByName(String name);
 }
