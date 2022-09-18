@@ -1,0 +1,252 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "user--service",
+    "version": "1.0.0",
+    "description": "user service application"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/api/user",
+      "description": "http://localhost:8080/api/user"
+    }
+  ],
+  "paths": {
+    "/user": {
+      "summary": "keep user in system",
+      "description": "keep user in system",
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUser"
+              },
+              "examples": {
+                "request": {
+                  "value": {
+                    "name": "some text",
+                    "role": "father",
+                    "password": "123456"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/CreatedUserResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/DefaultError"
+          },
+          "404": {
+            "$ref": "#/components/responses/DefaultError"
+          },
+          "500": {
+            "$ref": "#/components/responses/DefaultError"
+          }
+        },
+        "operationId": "store",
+        "summary": "create a user",
+        "description": "create a user with a certain role"
+      }
+    },
+    "/auth": {
+      "summary": "authenticate a user",
+      "description": "authenticate a user",
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Authenticate"
+              },
+              "examples": {
+                "request": {
+                  "value": {
+                    "name": "some text",
+                    "password": "some text"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "headers": {
+              "token": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "token": {
+                    "value": "bearer token"
+                  }
+                }
+              }
+            },
+            "description": "authenticate"
+          }
+        },
+        "operationId": "auth",
+        "summary": "authenticate a user",
+        "description": "authenticate a user"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "title": "Root Type for User",
+        "description": "Definition of user in system",
+        "type": "object",
+        "properties": {
+          "id": {
+            "format": "int32",
+            "description": "unique key of user",
+            "type": "integer"
+          },
+          "name": {
+            "description": "username in system",
+            "type": "string"
+          },
+          "role": {
+            "description": "user role",
+            "enum": [
+              "father",
+              "professor"
+            ],
+            "type": "string"
+          }
+        },
+        "example": {
+          "id": 0,
+          "name": "some text",
+          "role": "father",
+          "password": "123456"
+        }
+      },
+      "CreateUser": {
+        "title": "Root Type for CreateUser",
+        "description": "user creation data",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "enum": [
+              "father",
+              "professor"
+            ],
+            "type": "string"
+          },
+          "password": {
+            "description": "user password",
+            "type": "string"
+          }
+        },
+        "example": {
+          "name": "john",
+          "role": "professor",
+          "password": "some text"
+        }
+      },
+      "CreatedUser": {
+        "title": "Root Type for CreatedUser",
+        "description": "",
+        "type": "object",
+        "properties": {
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "id": 1,
+          "name": "some text",
+          "role": "father"
+        }
+      },
+      "Error": {
+        "title": "Root Type for Error",
+        "description": "",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "message": "message"
+        }
+      },
+      "Authenticate": {
+        "title": "Root Type for Authenticate",
+        "description": "",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "name": "jhon",
+          "password": "12345"
+        }
+      }
+    },
+    "responses": {
+      "CreatedUserResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreatedUser"
+            },
+            "examples": {
+              "response": {
+                "value": {
+                  "id": 49,
+                  "name": "some text",
+                  "role": "some text"
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      },
+      "DefaultError": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "response": {
+                "value": {
+                  "message": "some text"
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      }
+    }
+  }
+}
