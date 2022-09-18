@@ -97,6 +97,52 @@
         "summary": "authenticate a user",
         "description": "authenticate a user"
       }
+    },
+    "/to-allowed": {
+      "get": {
+        "parameters": [
+          {
+            "name": "function",
+            "description": "use case in application",
+            "schema": {
+              "enum": [
+                "rolls",
+                "reasons",
+                "reports"
+              ],
+              "type": "string"
+            },
+            "in": "query",
+            "required": true
+          },
+          {
+            "name": "token",
+            "description": "user token",
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PermissionResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/DefaultError"
+          },
+          "405": {
+            "$ref": "#/components/responses/DefaultError"
+          },
+          "500": {
+            "$ref": "#/components/responses/DefaultError"
+          }
+        },
+        "operationId": "toAllowed",
+        "summary": "allowed function",
+        "description": "should permit execute determined function"
+      }
     }
   },
   "components": {
@@ -208,6 +254,19 @@
           "name": "jhon",
           "password": "12345"
         }
+      },
+      "Permission": {
+        "title": "Root Type for Permission",
+        "description": "",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "message": "allowed"
+        }
       }
     },
     "responses": {
@@ -235,6 +294,42 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "response": {
+                "value": {
+                  "message": "some text"
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      },
+      "AuthenticatedUser": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreatedUser"
+            },
+            "examples": {
+              "response": {
+                "value": {
+                  "id": 12,
+                  "name": "some text",
+                  "role": "some text"
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      },
+      "PermissionResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Permission"
             },
             "examples": {
               "response": {

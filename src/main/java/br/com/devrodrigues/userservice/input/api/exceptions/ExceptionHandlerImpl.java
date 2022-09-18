@@ -1,6 +1,7 @@
 package br.com.devrodrigues.userservice.input.api.exceptions;
 
 import br.com.devrodrigues.userservice.core.exceptions.GenerateTokenException;
+import br.com.devrodrigues.userservice.core.exceptions.InvalidTokenException;
 import br.com.devrodrigues.userservice.core.exceptions.UserNotAllowedException;
 import br.com.devrodrigues.userservice.openapi.model.Error;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,15 @@ public class ExceptionHandlerImpl {
     @ExceptionHandler(UserNotAllowedException.class)
     @ResponseStatus(METHOD_NOT_ALLOWED)
     public Error userNotAllowedException(UserNotAllowedException e) {
+        var response = new Error();
+        response.setMessage(e.getMessage());
+        return response;
+    }
+
+    @ResponseBody
+    @ExceptionHandler(InvalidTokenException.class)
+    @ResponseStatus(METHOD_NOT_ALLOWED)
+    public Error invalidTokenException(InvalidTokenException e) {
         var response = new Error();
         response.setMessage(e.getMessage());
         return response;
