@@ -23,11 +23,9 @@ public class AuthenticateUserUseCase {
         HttpHeaders responseHeaders = new HttpHeaders();
         var localizedUser = userPort.getByName(user.getName());
 
-        if (nonNull(localizedUser)) {
-            if (Objects.equals(localizedUser.getPassword(), user.getPassword())) {
+        if (nonNull(localizedUser) && Objects.equals(localizedUser.getPassword(), user.getPassword())) {
                 responseHeaders.add("token", localizedUser.getToken());
                 return responseHeaders;
-            }
         }
 
         throw new UserNotAllowedException("User not found");
