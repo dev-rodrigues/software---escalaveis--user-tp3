@@ -11,7 +11,7 @@ public class Permissions {
         //no-sonar
     }
     private static final Map<String, List<String>> permissions = Map.of(
-            "TEACHER", of("rolls", "reasons", "reports, justify"),
+            "TEACHER", of("rolls", "reasons", "reports", "justify"),
             "FATHER", of("reports, justify")
     );
 
